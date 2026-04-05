@@ -246,7 +246,11 @@ def guardar_en_sheets(datos):
         
         # 2. Cargar credenciales desde los Secrets de Streamlit
         # IMPORTANTE: Usa st.secrets (en inglés)
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_creds"], scope)
+        # Convertimos el secreto de Streamlit en un diccionario real
+        credenciales_dict = dict(st.secrets["google_creds"])
+        
+        # Usamos el diccionario para autenticarnos
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
         
         # 3. Autorizar el cliente
         client = gspread.authorize(creds)
