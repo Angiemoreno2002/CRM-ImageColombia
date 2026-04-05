@@ -242,7 +242,7 @@ def consultar_leads_sql():
 def guardar_en_sheets(datos):
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_name('credenciales.json', scope)
+        creds = ServiceAccountCredentials.from_json_dict(st.secrets["google_creds"], scope)
         client = gspread.authorize(creds)
         sheet = client.open("Sistema_Leads_Agencia").get_worksheet(0)
         sheet.append_row(list(datos))
