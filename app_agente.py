@@ -241,8 +241,14 @@ def consultar_leads_sql():
 # 3. Función para Google Sheets (Nube)
 def guardar_en_sheets(datos):
     try:
+        # 1. Definir el alcance (Scope)
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        
+        # 2. Cargar credenciales desde los Secrets de Streamlit
+        # IMPORTANTE: Usa st.secrets (en inglés)
         creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_creds"], scope)
+        
+        # 3. Autorizar el cliente
         client = gspread.authorize(creds)
         sheet = client.open("Sistema_Leads_Agencia").get_worksheet(0)
         sheet.append_row(list(datos))
